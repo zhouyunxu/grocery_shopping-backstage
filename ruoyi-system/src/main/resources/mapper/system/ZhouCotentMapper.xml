@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.nuo.mapper.ZhouCotentMapper">
+
+    <resultMap type="ZhouCotent" id="ZhouCotentResult">
+        <result property="id"    column="id"    />
+        <result property="informationId"    column="information_id"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectZhouCotentVo">
+        select id, information_id, content from zhou_cotent
+    </sql>
+
+    <select id="selectZhouCotentList" parameterType="ZhouCotent" resultMap="ZhouCotentResult">
+        <include refid="selectZhouCotentVo"/>
+        <where>
+            <if test="informationId != null  and informationId != ''"> and information_id = #{informationId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+
+    <select id="selectZhouCotentById" parameterType="Long" resultMap="ZhouCotentResult">
+        <include refid="selectZhouCotentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertZhouCotent" parameterType="ZhouCotent">
+        insert into zhou_cotent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="informationId != null">information_id,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="informationId != null">#{informationId},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhouCotent" parameterType="ZhouCotent">
+        update zhou_cotent
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="informationId != null">information_id = #{informationId},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZhouCotentById" parameterType="Long">
+        delete from zhou_cotent where id = #{id}
+    </delete>
+
+    <delete id="deleteZhouCotentByIds" parameterType="String">
+        delete from zhou_cotent where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

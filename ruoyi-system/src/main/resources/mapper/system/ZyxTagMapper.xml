@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ZyxTagMapper">
+    
+    <resultMap type="ZyxTag" id="ZyxTagResult">
+        <result property="id"    column="id"    />
+        <result property="tag"    column="tag"    />
+        <result property="tagVersion"    column="tag_version"    />
+        <result property="tagFunctions"    column="tag_functions"    />
+        <result property="tagInfo"    column="tag_info"    />
+        <result property="buserCount"    column="buser_count"    />
+        <result property="appver"    column="appver"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="ZyxTagVo" id="ZyxTagResultVo">
+        <result property="tagInfo"    column="tag_info"    />
+        <result property="buserCount"    column="buser_count"    />
+    </resultMap>
+
+
+
+    <sql id="selectZyxTagVo">
+        select id, tag, tag_version, tag_functions, tag_info, buser_count, appver,
+        remark, create_by, create_time, update_by, update_time
+        from zyx_tag
+    </sql>
+
+    <select id="selectZyxTagList" parameterType="ZyxTag" resultMap="ZyxTagResult">
+        select id, tag, tag_version, tag_functions, tag_info, buser_count, appver,
+        remark, create_by, create_time, update_by, update_time
+        from zyx_tag
+        <where>  
+            <if test="tag != null  and tag != ''"> and tag like ('%' + #{tag} + '%')</if>
+            <if test="tagFunctions != null  and tagFunctions != ''"> and tag_functions like ('%' + #{tagFunctions} + '%')</if>
+            <if test="tagVersion != null  and tagVersion != ''"> and tag_version = #{tagVersion}</if>
+            <if test="tagInfo != null  and tagInfo != ''"> and tag_info = #{tagInfo}</if>
+            <if test="buserCount != null  and buserCount != ''"> and buser_count = #{buserCount}</if>
+            <if test="appver != null  and appver != ''"> and appver = #{appver}</if>
+        </where>
+    </select>
+    
+    <select id="selectZyxTagById" parameterType="Long" resultMap="ZyxTagResult">
+        <include refid="selectZyxTagVo"/>
+        where id = #{id}
+    </select>
+
+    <!--  查询info信息  -->
+    <select id="selectByInfo" resultType="com.ruoyi.system.domain.ZyxTagVo" resultMap="ZyxTagResultVo">
+        select tag_info from zyx_tag
+        where tag = #{tag}
+    </select>
+
+
+    <insert id="insertZyxTag" parameterType="ZyxTag" useGeneratedKeys="true" keyProperty="id">
+        insert into zyx_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tag != null">tag,</if>
+            <if test="tagVersion != null">tag_version,</if>
+            <if test="tagFunctions != null">tag_functions,</if>
+            <if test="tagInfo != null">tag_info,</if>
+            <if test="buserCount != null">buser_count,</if>
+            <if test="appver != null">appver,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tag != null">#{tag},</if>
+            <if test="tagVersion != null">#{tagVersion},</if>
+            <if test="tagFunctions != null">#{tagFunctions},</if>
+            <if test="tagInfo != null">#{tagInfo},</if>
+            <if test="buserCount != null">#{buserCount},</if>
+            <if test="appver != null">#{appver},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZyxTag" parameterType="ZyxTag">
+        update zyx_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tag != null">tag = #{tag},</if>
+            <if test="tagVersion != null">tag_version = #{tagVersion},</if>
+            <if test="tagFunctions != null">tag_functions = #{tagFunctions},</if>
+            <if test="tagInfo != null">tag_info = #{tagInfo},</if>
+            <if test="buserCount != null">buser_count = #{buserCount},</if>
+            <if test="appver != null">appver = #{appver},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZyxTagById" parameterType="Long">
+        delete from zyx_tag where id = #{id}
+    </delete>
+
+    <delete id="deleteZyxTagByIds" parameterType="String">
+        delete from zyx_tag where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

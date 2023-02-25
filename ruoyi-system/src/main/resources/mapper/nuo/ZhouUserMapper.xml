@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.nuo.mapper.ZhouUserMapper">
+    
+    <resultMap type="ZhouUser" id="ZhouUserResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="age"    column="age"    />
+        <result property="email"    column="email"    />
+    </resultMap>
+
+    <sql id="selectZhouUserVo">
+        select id, name, age, email from zhou_user
+    </sql>
+
+    <select id="selectZhouUserList" parameterType="ZhouUser" resultMap="ZhouUserResult">
+        <include refid="selectZhouUserVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhouUserById" parameterType="Long" resultMap="ZhouUserResult">
+        <include refid="selectZhouUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZhouUser" parameterType="ZhouUser" useGeneratedKeys="true" keyProperty="id">
+        insert into zhou_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="age != null">age,</if>
+            <if test="email != null">email,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="age != null">#{age},</if>
+            <if test="email != null">#{email},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhouUser" parameterType="ZhouUser">
+        update zhou_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="email != null">email = #{email},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZhouUserById" parameterType="Long">
+        delete from zhou_user where id = #{id}
+    </delete>
+
+    <delete id="deleteZhouUserByIds" parameterType="String">
+        delete from zhou_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

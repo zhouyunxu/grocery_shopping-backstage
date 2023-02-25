@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ZyxGoodMapper">
+    
+    <resultMap type="ZyxGood" id="ZyxGoodResult">
+        <result property="id"    column="id"    />
+        <result property="goodName"    column="good_name"    />
+        <result property="goodDepict"    column="good_depict"    />
+        <result property="goodPrice"    column="good_price"    />
+        <result property="goodUrl"    column="good_url"    />
+        <result property="edibleMethod"    column="edible_method"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectZyxGoodVo">
+        select id, good_name, good_depict, good_price, good_url, edible_method, remark, create_by, create_time, update_by, update_time from zyx_good
+    </sql>
+
+    <select id="selectZyxGoodList" parameterType="ZyxGood" resultMap="ZyxGoodResult">
+        <include refid="selectZyxGoodVo"/>
+        <where>  
+            <if test="goodName != null  and goodName != ''"> and good_name like concat('%', #{goodName}, '%')</if>
+            <if test="goodDepict != null  and goodDepict != ''"> and good_depict like concat('%', #{goodDepict}, '%')</if>
+            <if test="goodPrice != null "> and good_price like concat('%', #{goodPrice}, '%')</if>
+            <if test="goodUrl != null  and goodUrl != ''"> and good_url = #{goodUrl}</if>
+            <if test="edibleMethod != null  and edibleMethod != ''"> and edible_method = #{edibleMethod}</if>
+        </where>
+    </select>
+    
+    <select id="selectZyxGoodById" parameterType="Long" resultMap="ZyxGoodResult">
+        <include refid="selectZyxGoodVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZyxGood" parameterType="ZyxGood" useGeneratedKeys="true" keyProperty="id">
+        insert into zyx_good
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodName != null">good_name,</if>
+            <if test="goodDepict != null">good_depict,</if>
+            <if test="goodPrice != null">good_price,</if>
+            <if test="goodUrl != null">good_url,</if>
+            <if test="edibleMethod != null">edible_method,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodName != null">#{goodName},</if>
+            <if test="goodDepict != null">#{goodDepict},</if>
+            <if test="goodPrice != null">#{goodPrice},</if>
+            <if test="goodUrl != null">#{goodUrl},</if>
+            <if test="edibleMethod != null">#{edibleMethod},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZyxGood" parameterType="ZyxGood">
+        update zyx_good
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodName != null">good_name = #{goodName},</if>
+            <if test="goodDepict != null">good_depict = #{goodDepict},</if>
+            <if test="goodPrice != null">good_price = #{goodPrice},</if>
+            <if test="goodUrl != null">good_url = #{goodUrl},</if>
+            <if test="edibleMethod != null">edible_method = #{edibleMethod},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZyxGoodById" parameterType="Long">
+        delete from zyx_good where id = #{id}
+    </delete>
+
+    <delete id="deleteZyxGoodByIds" parameterType="String">
+        delete from zyx_good where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
