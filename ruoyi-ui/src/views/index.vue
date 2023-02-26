@@ -9,6 +9,8 @@
     别人笑我忒疯癫，我笑他人看不穿；不见盖茨两手间，财权富贵世人鉴。
   </h1>-->
 
+    <h1>欢迎来到杂货店!</h1>
+
     <template>
 <!--      <el-carousel :interval="4000" type="card" height="200px">-->
 <!--        &lt;!&ndash;<img v-for="(src,index) in goodList" :src="src.goodUrl" :key="index">&ndash;&gt;-->

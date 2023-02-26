@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '小周商城系统',
+      title: '杂货店商城系统',
       logo: logoImg
     }
   }

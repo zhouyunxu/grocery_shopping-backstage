@@ -7,6 +7,10 @@ const mimeMap = {
 }
 
 const baseUrl = process.env.VUE_APP_BASE_API
+//线上地址
+const baseUrl = "http://106.55.20.172:8080"
+
+
 export function downLoadZip(str, filename) {
   var url = baseUrl + str
   axios({

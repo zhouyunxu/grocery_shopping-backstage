@@ -123,6 +123,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
                 //访问info json 格式字符串结果
                 .antMatchers("/system/tag/getInfo").permitAll()
+                //生成代码接口
+                .antMatchers("/tool/gen/batchGenCode").permitAll()
 
 
                 // 除上面外的所有请求全部需要鉴权认证
