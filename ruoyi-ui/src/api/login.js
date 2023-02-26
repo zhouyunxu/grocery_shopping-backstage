@@ -34,7 +34,9 @@ export function logout() {
 // 获取验证码
 export function getCodeImg() {
   return request({
+    // url:'http://106.55.20.172:8080/captchaImage',
     url: '/captchaImage',
-    method: 'get'
+    method: 'get',
+    // baseURL: 'http://106.55.20.172:8080'
   })
 }

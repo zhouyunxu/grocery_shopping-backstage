@@ -3,7 +3,9 @@
  * Copyright (c) 2019 ruoyi
  */
 
-const baseURL = process.env.VUE_APP_BASE_API
+// const baseURL = process.env.VUE_APP_BASE_API
+const baseURL = "http://106.55.20.172:8080"
+console.log(baseURL);
 
 // 日期格式化
 export function parseTime(time, pattern) {
