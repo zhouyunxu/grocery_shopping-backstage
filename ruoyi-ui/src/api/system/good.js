@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询商品列表
+// 查询杂货店商品管理列表
 export function listGood(query) {
   return request({
     url: '/system/good/list',
@@ -9,15 +9,15 @@ export function listGood(query) {
   })
 }
 
-// 查询商品详细
-export function getGood(id) {
+// 查询杂货店商品管理详细
+export function getGood(goodId) {
   return request({
-    url: '/system/good/' + id,
+    url: '/system/good/' + goodId,
     method: 'get'
   })
 }
 
-// 新增商品
+// 新增杂货店商品管理
 export function addGood(data) {
   return request({
     url: '/system/good',
@@ -26,7 +26,7 @@ export function addGood(data) {
   })
 }
 
-// 修改商品
+// 修改杂货店商品管理
 export function updateGood(data) {
   return request({
     url: '/system/good',
@@ -35,15 +35,15 @@ export function updateGood(data) {
   })
 }
 
-// 删除商品
-export function delGood(id) {
+// 删除杂货店商品管理
+export function delGood(goodId) {
   return request({
-    url: '/system/good/' + id,
+    url: '/system/good/' + goodId,
     method: 'delete'
   })
 }
 
-// 导出商品
+// 导出杂货店商品管理
 export function exportGood(query) {
   return request({
     url: '/system/good/export',
