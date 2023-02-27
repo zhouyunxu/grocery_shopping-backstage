@@ -9,6 +9,9 @@
                 <el-input v-model="queryParams.goodPrice" placeholder="请输入商品价格" clearable size="small"
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
+            <el-form-item label="商品图片">
+                <ImageUpload v-model="queryParams.goodUrl" />
+            </el-form-item>
             <el-form-item label="是否上架(0未上架1上架)" prop="isGroup">
                 <el-input v-model="queryParams.isGroup" placeholder="请输入是否上架(0未上架    1上架)" clearable size="small"
                     @keyup.enter.native="handleQuery" />
