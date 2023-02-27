@@ -9,23 +9,13 @@
                 <el-input v-model="queryParams.goodPrice" placeholder="请输入商品价格" clearable size="small"
                     @keyup.enter.native="handleQuery" />
             </el-form-item>
-            <el-form-item label="商品图片">
+            <!-- <el-form-item label="商品图片">
                 <ImageUpload v-model="queryParams.goodUrl" />
-            </el-form-item>
-            <el-form-item label="是否上架(0未上架1上架)" prop="isGroup">
+            </el-form-item> -->
+            <!-- <el-form-item label="是否上架(0未上架1上架)" prop="isGroup">
                 <el-input v-model="queryParams.isGroup" placeholder="请输入是否上架(0未上架    1上架)" clearable size="small"
                     @keyup.enter.native="handleQuery" />
-            </el-form-item>
-            <el-form-item label="上架时间" prop="upTime">
-                <el-date-picker clearable size="small" v-model="queryParams.upTime" type="date" value-format="yyyy-MM-dd"
-                    placeholder="选择上架时间">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="下架时间" prop="downTime">
-                <el-date-picker clearable size="small" v-model="queryParams.downTime" type="date" value-format="yyyy-MM-dd"
-                    placeholder="选择下架时间">
-                </el-date-picker>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -60,21 +50,17 @@
             <el-table-column label="商品描述" align="center" prop="goodDepict" />
             <el-table-column label="商品图片" align="center" prop="goodUrl">
                 <!-- 表格显示图片 -->
+                <!--  viewer  图片浏览组件插件 -->
                 <template slot-scope="scope">
-                    <img :src="scope.row.goodUrl" alt="" style="width: 100px;height: 100px">
+                    <viewer :images="goodList">
+                        <img :src="scope.row.goodUrl" width="60" height="60" class="head_pic" />
+                    </viewer>
                 </template>
+                <!-- <template slot-scope="scope">
+                    <img :src="scope.row.goodUrl" alt="" style="width: 100px;height: 100px">
+                </template> -->
             </el-table-column>
             <el-table-column label="是否上架(0未上架    1上架)" align="center" prop="isGroup" />
-            <el-table-column label="上架时间" align="center" prop="upTime" width="180">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.upTime, '{y}-{m}-{d}') }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column label="下架时间" align="center" prop="downTime" width="180">
-                <template slot-scope="scope">
-                    <span>{{ parseTime(scope.row.downTime, '{y}-{m}-{d}') }}</span>
-                </template>
-            </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
@@ -101,20 +87,10 @@
                     <el-input v-model="form.goodDepict" type="textarea" placeholder="请输入内容" />
                 </el-form-item>
                 <el-form-item label="商品图片" prop="goodUrl">
-                    <el-input v-model="form.goodUrl" type="textarea" placeholder="请输入内容" />
+                    <ImageUpload v-model="form.goodUrl" />
                 </el-form-item>
                 <el-form-item label="是否上架(0未上架    1上架)" prop="isGroup">
                     <el-input v-model="form.isGroup" placeholder="请输入是否上架(0未上架    1上架)" />
-                </el-form-item>
-                <el-form-item label="上架时间" prop="upTime">
-                    <el-date-picker clearable size="small" v-model="form.upTime" type="date" value-format="yyyy-MM-dd"
-                        placeholder="选择上架时间">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="下架时间" prop="downTime">
-                    <el-date-picker clearable size="small" v-model="form.downTime" type="date" value-format="yyyy-MM-dd"
-                        placeholder="选择下架时间">
-                    </el-date-picker>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -127,10 +103,11 @@
 
 <script>
 import { listGood, getGood, delGood, addGood, updateGood, exportGood } from "@/api/system/good";
-
+import ImageUpload from '@/components/ImageUpload';
 export default {
     name: "Good",
     components: {
+        ImageUpload
     },
     data() {
         return {
