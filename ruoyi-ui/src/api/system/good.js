@@ -1,5 +1,16 @@
 import request from '@/utils/request'
-
+// 改变商品状态
+export function changeShopStatus(shopId, status) {
+  const data = {
+    shopId,
+    status
+  }
+  return request({
+    url: '/system/good/changeShopStatus',
+    method: 'put',
+    data: data
+  })
+}
 // 查询杂货店商品管理列表
 export function listGood(query) {
   return request({

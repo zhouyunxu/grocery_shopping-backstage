@@ -170,7 +170,7 @@ export default {
       _this.date = new Date(); // 修改数据date
     }, 1000)
 
-    console.log(this.$refs.starsRef.children);
+    // console.log(this.$refs.starsRef.children);
     let starNodes = Array.from(this.$refs.starsRef.children);
     starNodes.forEach((item) => {
       let speed = 0.2 + Math.random() * 1;

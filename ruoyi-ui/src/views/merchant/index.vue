@@ -21,7 +21,6 @@
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
         </el-form>
-
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
@@ -60,7 +59,12 @@
                     <img :src="scope.row.goodUrl" alt="" style="width: 100px;height: 100px">
                 </template> -->
             </el-table-column>
-            <el-table-column label="是否上架(0未上架    1上架)" align="center" prop="isGroup" />
+            <el-table-column label="是否上架(0未上架    1上架)" align="center" prop="isGroup">
+                <template slot-scope="scope">
+                    <el-switch v-model="scope.row.isGroup" active-value="1" inactive-value="0"
+                        @change="handleStatusChange(scope.row)"></el-switch>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
@@ -89,9 +93,6 @@
                 <el-form-item label="商品图片" prop="goodUrl">
                     <ImageUpload v-model="form.goodUrl" />
                 </el-form-item>
-                <el-form-item label="是否上架(0未上架    1上架)" prop="isGroup">
-                    <el-input v-model="form.isGroup" placeholder="请输入是否上架(0未上架    1上架)" />
-                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -102,7 +103,7 @@
 </template>
 
 <script>
-import { listGood, getGood, delGood, addGood, updateGood, exportGood } from "@/api/system/good";
+import { changeShopStatus, listGood, getGood, delGood, addGood, updateGood, exportGood } from "@/api/system/good";
 import ImageUpload from '@/components/ImageUpload';
 export default {
     name: "Good",
@@ -163,6 +164,27 @@ export default {
                 this.total = response.total;
                 this.loading = false;
             });
+        },
+        // 任务状态修改
+        handleStatusChange(row) {
+            console.log(row.goodId,"  ",row.isGroup);
+            let text = row.isGroup === "0" ? "下架" : "上架";
+            this.$confirm('确认要"' + text + '""' + row.goodName + '"商品吗?', "警告", {
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
+            }).then(function () {
+                console.log("====");
+                return changeShopStatus(row.goodId, row.isGroup);
+            }).then(() => {
+                console.log("成功");
+                this.msgSuccess(text+"成功");
+            })
+            .catch(function () {
+                console.log("cuo");
+                row.isGroup = row.isGroup === "0" ? "1" : "0";
+            });
+           
         },
         // 取消按钮
         cancel() {
